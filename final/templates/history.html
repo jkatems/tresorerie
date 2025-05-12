@@ -1,0 +1,56 @@
+!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='history.css') }}">
+    <title>Historique des Transactions</title>
+</head>
+<body>
+    <h1>Historique des Transactions</h1>
+
+    <h2>Revenus</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Montant</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for revenu in revenus %}
+            <tr>
+                <td>{{ revenu[0] }}</td>
+                <td>{{ revenu[1] }}€</td>
+                <td>{{ revenu[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Dépenses</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Montant</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for depense in depenses %}
+            <tr>
+                <td>{{ depense[0] }}</td>
+                <td>{{ depense[1] }}€</td>
+                <td>{{ depense[2] }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/">Retour à l'accueil</a>
+</body>
+</html>

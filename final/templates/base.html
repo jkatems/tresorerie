@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Any RDC - Gestion de Trésorerie</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <h1>Any RDC - Trésorerie</h1>
+            <ul>
+                <li><a href="{{ url_for('dashboard') }}">Tableau de bord</a></li>
+                <li><a href="{{ url_for('transactions') }}">Transactions</a></li>
+                <li><a href="{{ url_for('history') }}">Historique</a></li>
+                {% if session.get('role') == 'manager' or session.get('role') == 'admin' %}
+                <li><a href="{{ url_for('reports') }}">Rapports</a></li>
+                {% endif %}
+                {% if session.get('role') == 'admin' %}
+                <li><a href="{{ url_for('register') }}">Gestion utilisateurs</a></li>
+                {% endif %}
+                <li><a href="{{ url_for('logout') }}">Déconnexion</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

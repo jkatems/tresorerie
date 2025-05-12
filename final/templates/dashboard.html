@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tableau de Bord</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Tableau de Bord</h1>
+    <p>Solde : {{ solde }} FC</p>
+    <p>Total Revenus : {{ revenus }} FC</p>
+    <p>Total Dépenses : {{ depenses }} FC</p>
+    <a href="{{ url_for('ajouter_revenu') }}">Ajouter un revenu</a> |
+    <a href="{{ url_for('ajouter_depense') }}">Ajouter une dépense</a> |
+    <a href="{{ url_for('historique') }}">Voir l'historique</a> |
+    <a href="{{ url_for('logout') }}">Se déconnecter</a>
+
+    <h2>Évolution des revenus et dépenses</h2>
+    <canvas id="financeChart" width="600" height="300"></canvas>
+
+    <script>
+        fetch("/api/stats")
+            .then(res => res.json())
+            .then(data => {
+                const labels = [...new Set([...data.revenus, ...data.depenses].map(d => d.date))].sort();
+
+                const revenusData = labels.map(date =>
+                    data.revenus.find(d => d.date === date)?.montant || 0
+                );
+
+                const depensesData = labels.map(date =>
+                    data.depenses.find(d => d.date === date)?.montant || 0
+                );
+
+                new Chart(document.getElementById("financeChart"), {
+                    type: "line",
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: "Revenus",
+                                data: revenusData,
+                                borderColor: "green",
+                                fill: false
+                            },
+                            {
+                                label: "Dépenses",
+                                data: depensesData,
+                                borderColor: "red",
+                                fill: false
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { beginAtZero: true }
+                        }
+                    }
+                });
+            });
+    </script>
+</body>
+</html>

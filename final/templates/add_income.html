@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajouter Dépense</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='add_income.css') }}">
+</head>
+<body>
+    <h1>Ajouter une Dépense</h1>
+    <form method="post">
+        Description : <input type="text" name="description" required><br>
+        Montant : <input type="number" name="montant" step="0.01" required><br>
+        Date : <input type="date" name="date" required><br>
+        <input type="submit" value="Ajouter">
+    </form>
+    <a href="{{ url_for('dashboard') }}">Retour au tableau de bord</a>
+</body>
+</html>
